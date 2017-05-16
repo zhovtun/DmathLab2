@@ -7,17 +7,28 @@ public class Relatives extends MyArray {
 
     public Relatives() {
         rArray = new String[0][0];
-        binMatrix = new String[arr1.length][arr1.length];
+
     }
 
 
     public String[][] getArray (){return rArray;}
-    public String[] getHeader () {return arr1;}
+    public String[] getHeader () {
+        String[] arr = new String[arr1.length+1];
+        int i = 0;
+        while (i<arr.length) {
+            arr[i] = "" + i;
+            i++;
+        }
+        return arr;
+    }
     public String[][] getBinMatrix () {
         buildBinMatrix();
         return binMatrix;
     }
+    public int getTableDimension () {return arr1.length+1;}
+
     public int getRArryLenght () {return arr1.length;}
+    public int getHeaderLenght () {return arr1.length;}
 
     private int findIndex (String string){
         int i = 0;
@@ -33,12 +44,17 @@ public class Relatives extends MyArray {
     }
 
     private void buildBinMatrix() {
-        int i = 0;
-        while (i<rArray.length){
-            binMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = "1";
+        int i = 1;
+        while (i< arr1.length+1) {
+            binMatrix[0][i] = arr1[i-1];
+            binMatrix[i][0] = arr1[i-1];
             i++;
         }
-
+        i = 0;
+        while (i<rArray.length){
+            binMatrix[findIndex(rArray[i][0])+1][findIndex(rArray[i][1])+1] = "1";
+            i++;
+        }
     }
 
     private String[] buildRArray(String str) {
@@ -98,7 +114,7 @@ public class Relatives extends MyArray {
     public void setArray (String str1, String str2) {
         arr1 = buildArray (str1);
         arr2 = buildRArray (str2);
-        binMatrix = new String[arr1.length][arr1.length];
+        binMatrix = new String[arr1.length+1][arr1.length+1];
     }
 
     public String showRArray () {

@@ -53,7 +53,7 @@ public class Frame {
 
             JTable table = new JTable(subset.getBinMatrix(), subset.getHeader());
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            while (i<subset.getRArryLenght()) {
+            while (i<subset.getHeaderLenght()+1) {
                 table.getColumnModel().getColumn(i).setMaxWidth(3);
                 i++;
             }
@@ -64,6 +64,7 @@ public class Frame {
                 public void actionPerformed(ActionEvent e) {
                 }
             });*/
+
             JTextArea textArea = new JTextArea(10, 20);
             fr1.add(table);
             fr1.add(textArea);
