@@ -13,7 +13,7 @@ public class TablePopUp extends JFrame {
         setPreferredSize(new Dimension(width, heigth));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        setResizable(false);
+        setResizable(true);
         setDefaultLookAndFeelDecorated(false);
         pack();
     }

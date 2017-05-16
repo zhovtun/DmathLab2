@@ -48,7 +48,7 @@ public class Frame {
             subset.setArray(subsetA.getText(), subsetB.getText());
             subsetC.setText(subset.showSubset() + '\n' + subset.showRArray());
 
-            TablePopUp fr1 = new TablePopUp("Результат вычислений" , 400, 200);
+            TablePopUp fr1 = new TablePopUp("Результат вычислений" , 400, 300);
             int i = 0;
 
             JTable table = new JTable(subset.getBinMatrix(), subset.getHeader());
@@ -58,16 +58,18 @@ public class Frame {
                 i++;
             }
 
-            /*JButton button = new JButton("Пересчитать");
+            JButton button = new JButton("Пересчитать");
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    System.out.print("РАсчет");
                 }
-            });*/
+            });
 
             JTextArea textArea = new JTextArea(10, 20);
             fr1.add(table);
             fr1.add(textArea);
+            fr1.add(button);
             fr1.setVisible(true);
         }
     }
