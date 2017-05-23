@@ -120,19 +120,27 @@ public class Relatives extends MyArray {
         return result;
     }
 
-    public String checkProperties() {
-        String result = "Множество R имеет следующие свойства:";
-        int count, reflect;
+    private int[] checkProperties(int[][] numM) {
+        int[] result = new int[4]; //0 - рефлексивность, 1 - симметричность, 2 - антисемметричность, 3 - транзитивность
+        int count = 0, reflect = 0, left = 0, right = 0, tran = 0;
         int i = 0;
         int j = 0;
 
         while (i < arr1.length) {
             while (j < arr1.length){
-                //TODO Счетчик 0 и 1 в бинарной матрице
+                if (i == j && numM[i][j] == 1) {reflect++;}
+                else if (j != i && numM[i][j] == 1) {count++;}
+                else if (j < i && numM[i][j] == 1) {left++;}
+                else if (j > i && numM[i][j] == 1) {right++;}
+                else if (numMatrix[i][j] != numM[i][j]) {tran++;}
+                j++;
             }
+            i++;
         }
-        //Проверка на рефлексивность
-
+        if (reflect == arr1.length) {result[0] = 1;}
+        if (count > 0 && left == right) {result[1] = 1;}
+        if (count > 0 && left != right) {result[2] = 1;}
+        if (tran == 0) {result[3] = 1;}
 
         return result;
     }
