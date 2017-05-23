@@ -46,7 +46,7 @@ public class Frame {
     public class TestActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             subset.setArray(subsetA.getText(), subsetB.getText());
-            subsetC.setText(subset.showSubset() + '\n' + subset.showRArray());
+            subsetC.setText(subset.showSubset() + '\n' + subset.showRArray() + '\n' + subset.checkRelatives());
 
             TablePopUp fr1 = new TablePopUp("Результат вычислений" , 400, 300);
             int i = 0;
@@ -57,16 +57,17 @@ public class Frame {
                 table.getColumnModel().getColumn(i).setMaxWidth(3);
                 i++;
             }
+            JTextArea textArea = new JTextArea(10, 20);
 
             JButton button = new JButton("Пересчитать");
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.print("РАсчет");
+                    textArea.setText("Пересчет");
                 }
             });
 
-            JTextArea textArea = new JTextArea(10, 20);
+
             fr1.add(table);
             fr1.add(textArea);
             fr1.add(button);

@@ -4,6 +4,7 @@ package ru.time2store.dmath;
 public class Relatives extends MyArray {
     private String rArray[][];
     private String binMatrix[][];
+    private int numMatrix[][];
 
     public Relatives() {
         rArray = new String[0][0];
@@ -12,6 +13,7 @@ public class Relatives extends MyArray {
 
 
     public String[][] getArray (){return rArray;}
+
     public String[] getHeader () {
         String[] arr = new String[arr1.length+1];
         int i = 0;
@@ -53,6 +55,7 @@ public class Relatives extends MyArray {
         i = 0;
         while (i<rArray.length){
             binMatrix[findIndex(rArray[i][0])+1][findIndex(rArray[i][1])+1] = "1";
+            numMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = 1;
             i++;
         }
     }
@@ -97,16 +100,40 @@ public class Relatives extends MyArray {
         }
     }
 
-    public String checkRelatives(boolean type) {
-        String result = "equal";
+    public String checkRelatives() {
+        boolean type = true;
+
+        //TODO Сделать роверку что элемент массива rArray число записать type
+
+        String result = "На множестве R заданы следующие отношения aRb:\n";
         if (rArray[0][0].compareTo(rArray[0][1]) > 0) {
-            result = "less";
+            result += "a > b, ";
         } else if (rArray[0][0].compareTo(rArray[0][1]) < 0) {
-            result = "more";
+            result += "a < b, ";
+        }
+        else if (rArray[0][0].compareTo(rArray[0][1]) == 0) {
+            result += "a = b, ";
         }
         if (type) {
-            if (Integer.parseInt(rArray[0][0]) % Integer.parseInt(rArray[0][1]) == 0) {result = "diff";}
+            if (Integer.parseInt(rArray[0][0]) % Integer.parseInt(rArray[0][1]) == 0) {result += "a делится на b.";}
         }
+        return result;
+    }
+
+    public String checkProperties() {
+        String result = "Множество R имеет следующие свойства:";
+        int count, reflect;
+        int i = 0;
+        int j = 0;
+
+        while (i < arr1.length) {
+            while (j < arr1.length){
+                //TODO Счетчик 0 и 1 в бинарной матрице
+            }
+        }
+        //Проверка на рефлексивность
+
+
         return result;
     }
 
@@ -115,6 +142,7 @@ public class Relatives extends MyArray {
         arr1 = buildArray (str1);
         arr2 = buildRArray (str2);
         binMatrix = new String[arr1.length+1][arr1.length+1];
+        numMatrix = new int[arr1.length][arr1.length];
     }
 
     public String showRArray () {
