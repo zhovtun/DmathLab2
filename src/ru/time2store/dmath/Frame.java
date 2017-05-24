@@ -16,7 +16,7 @@ public class Frame {
 
         JFrame jfrm = new JFrame("Лабораторная работа №1 по дискретной математике");
 
-        jfrm.setPreferredSize(new Dimension(600, 300));
+        jfrm.setPreferredSize(new Dimension(600, 400));
         jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jfrm.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -29,7 +29,7 @@ public class Frame {
 
         subsetA = new JTextField(50);
         subsetB = new JTextField(50);
-        subsetC = new JTextArea(7, 50);
+        subsetC = new JTextArea(10, 50);
 
         jfrm.add(lb1);
         jfrm.add(subsetA);
@@ -46,7 +46,7 @@ public class Frame {
     public class TestActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             subset.setArray(subsetA.getText(), subsetB.getText());
-            subsetC.setText(subset.showSubset() + '\n' + subset.showRArray() + '\n' + subset.checkRelatives());
+            subsetC.setText(subset.showSubset() + '\n' + subset.showRArray() + '\n' + subset.checkRelatives() + '\n' + subset.matrixForCheck());
 
             TablePopUp fr1 = new TablePopUp("Результат вычислений" , 400, 300);
             int i = 0;

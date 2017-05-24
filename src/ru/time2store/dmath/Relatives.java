@@ -55,7 +55,7 @@ public class Relatives extends MyArray {
         i = 0;
         while (i<rArray.length){
             binMatrix[findIndex(rArray[i][0])+1][findIndex(rArray[i][1])+1] = "1";
-            numMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = 1;
+            //numMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = 1;
             i++;
         }
     }
@@ -127,14 +127,17 @@ public class Relatives extends MyArray {
         int j = 0;
 
         while (i < arr1.length) {
+            j = 0;
             while (j < arr1.length){
                 if (i == j && numM[i][j] == 1) {reflect++;}
-                else if (j != i && numM[i][j] == 1) {count++;}
-                else if (j < i && numM[i][j] == 1) {left++;}
-                else if (j > i && numM[i][j] == 1) {right++;}
-                else if (numMatrix[i][j] != numM[i][j]) {tran++;}
+                if (j != i && numM[i][j] == 1) {count++;}
+                if (j < i && numM[i][j] == 1) {left++;}
+                if (j > i && numM[i][j] == 1) {right++;}
+                if (numMatrix[i][j] != numM[i][j]) {tran++;}
+                //System.out.print(numMatrix[i][j] + " ");
                 j++;
             }
+            //System.out.print('\n');
             i++;
         }
         if (reflect == arr1.length) {result[0] = 1;}
@@ -143,6 +146,45 @@ public class Relatives extends MyArray {
         if (tran == 0) {result[3] = 1;}
 
         return result;
+    }
+
+    public String matrixForCheck () {
+        int[][] transponirMatrix = new int[arr1.length][arr1.length]; //Транспонированная матрица
+        int[][] multiplyMatrix = new int[arr1.length][arr1.length]; // Умножение R*R для проверки транзитивнсти
+        int[] resultOriginalMatrix;
+        int[] resultTransponierMatrix;
+        int[] resultMultiplyMatrix;
+        String result = "Свойства множества R:\n";
+
+        int i = 0, j = 0;
+
+        i = 0;
+        while (i<rArray.length){
+            numMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = 1;
+            i++;
+        }
+
+        i=0;
+
+        while (i < arr1.length) {
+            j = 0;
+            while (j < arr1.length) {
+                transponirMatrix[j][i] = numMatrix[i][j];
+                multiplyMatrix[i][j] = numMatrix[i][j] * numMatrix [i][j];
+                j++;
+            }
+            i++;
+        }
+
+        resultOriginalMatrix = checkProperties(numMatrix);
+        resultTransponierMatrix = checkProperties(transponirMatrix);
+        resultMultiplyMatrix = checkProperties(multiplyMatrix);
+
+        if (resultOriginalMatrix[0] ==1) {result += " - множество рефлексивно;\n";}
+        if (resultTransponierMatrix[1] == 1) {result += " - множество симметрично\n";}
+        if (resultTransponierMatrix[2] == 1) {result += " - множество антисеммитрично\n";}
+        if (resultMultiplyMatrix[3] == 1) {result += " - множество транзитивно\n";}
+        return  result;
     }
 
     @Override
