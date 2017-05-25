@@ -16,7 +16,7 @@ public class Frame {
 
         JFrame jfrm = new JFrame("Лабораторная работа №1 по дискретной математике");
 
-        jfrm.setPreferredSize(new Dimension(600, 400));
+        jfrm.setPreferredSize(new Dimension(580, 330));
         jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jfrm.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -48,29 +48,17 @@ public class Frame {
             subset.setArray(subsetA.getText(), subsetB.getText());
             subsetC.setText(subset.showSubset() + '\n' + subset.showRArray() + '\n' + subset.checkRelatives() + '\n' + subset.matrixForCheck());
 
-            TablePopUp fr1 = new TablePopUp("Результат вычислений" , 400, 300);
-            int i = 0;
-
             JTable table = new JTable(subset.getBinMatrix(), subset.getHeader());
+            TablePopUp fr1 = new TablePopUp("Бинарная матрица" , subset.getTableDimension()*19, subset.getTableDimension()*22);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+            int i = 0;
             while (i<subset.getHeaderLenght()+1) {
                 table.getColumnModel().getColumn(i).setMaxWidth(3);
                 i++;
             }
-            JTextArea textArea = new JTextArea(10, 20);
-
-            JButton button = new JButton("Пересчитать");
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    textArea.setText("Пересчет");
-                }
-            });
-
 
             fr1.add(table);
-            fr1.add(textArea);
-            fr1.add(button);
             fr1.setVisible(true);
         }
     }

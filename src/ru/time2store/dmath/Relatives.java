@@ -1,6 +1,8 @@
 package ru.time2store.dmath;
 
 
+import static jdk.nashorn.internal.runtime.JSType.isNumber;
+
 public class Relatives extends MyArray {
     private String rArray[][];
     private String binMatrix[][];
@@ -12,8 +14,7 @@ public class Relatives extends MyArray {
     }
 
 
-    public String[][] getArray (){return rArray;}
-
+    // Геттеры
     public String[] getHeader () {
         String[] arr = new String[arr1.length+1];
         int i = 0;
@@ -28,10 +29,9 @@ public class Relatives extends MyArray {
         return binMatrix;
     }
     public int getTableDimension () {return arr1.length+1;}
-
-    public int getRArryLenght () {return arr1.length;}
     public int getHeaderLenght () {return arr1.length;}
 
+    // Метод для поиска индекса бинарной матрица из множества R
     private int findIndex (String string){
         int i = 0;
         int index = 0;
@@ -45,6 +45,7 @@ public class Relatives extends MyArray {
         return index;
     }
 
+    // Метод для конструирования бинарной матрицы из множества R
     private void buildBinMatrix() {
         int i = 1;
         while (i< arr1.length+1) {
@@ -55,11 +56,11 @@ public class Relatives extends MyArray {
         i = 0;
         while (i<rArray.length){
             binMatrix[findIndex(rArray[i][0])+1][findIndex(rArray[i][1])+1] = "1";
-            //numMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = 1;
             i++;
         }
     }
 
+    // Метод для создания массива множества R из строки ввода
     private String[] buildRArray(String str) {
         int i = 0;
         int j = 0;
@@ -100,11 +101,23 @@ public class Relatives extends MyArray {
         }
     }
 
+    // Метод проверяющий отношения множества R
     public String checkRelatives() {
+
+        // Проверка на то, является ли элемент массива числом или нет
         boolean type = true;
+        int i = 0;
+        while (i<arr2.length) {
+            if (!arr2[i].matches("^-?\\d+$")){
+                type = false;
+                i = arr2.length - 1;
+            }
+            i++;
+        }
 
-        //TODO Сделать роверку что элемент массива rArray число записать type
-
+        // Проверка отношений заданных парами элементов на множества R.
+        // Для корректной работы необходимо, чтобы отношения всех пар было
+        // одинаковым, т.к. проверяется только первая пара элементов.
         String result = "На множестве R заданы следующие отношения aRb:\n";
         if (rArray[0][0].compareTo(rArray[0][1]) > 0) {
             result += "a > b, ";
@@ -114,32 +127,37 @@ public class Relatives extends MyArray {
         else if (rArray[0][0].compareTo(rArray[0][1]) == 0) {
             result += "a = b, ";
         }
+        //  Если все элементы множества - числа, то проверяется свойство делимости
         if (type) {
-            if (Integer.parseInt(rArray[0][0]) % Integer.parseInt(rArray[0][1]) == 0) {result += "a делится на b.";}
+            if (Integer.parseInt(rArray[0][0]) % Integer.parseInt(rArray[0][1]) == 0) {result += "a делится на b, ";}
+            if (Integer.parseInt(rArray[0][1]) % Integer.parseInt(rArray[0][0]) == 0) {result += "b делится на a.";}
         }
         return result;
     }
 
+    // Метод, проверяющий свойства бинарной матрицы
     private int[] checkProperties(int[][] numM) {
         int[] result = new int[4]; //0 - рефлексивность, 1 - симметричность, 2 - антисемметричность, 3 - транзитивность
         int count = 0, reflect = 0, left = 0, right = 0, tran = 0;
         int i = 0;
-        int j = 0;
+        int j;
 
+        // Проверка свойств бинарной матрицы проводится путем подсчета единиц в главной
+        // диагонали, справа от нее и слева, а также проверка на транзитивность.
         while (i < arr1.length) {
             j = 0;
             while (j < arr1.length){
-                if (i == j && numM[i][j] == 1) {reflect++;}
-                if (j != i && numM[i][j] == 1) {count++;}
-                if (j < i && numM[i][j] == 1) {left++;}
-                if (j > i && numM[i][j] == 1) {right++;}
-                if (numMatrix[i][j] != numM[i][j]) {tran++;}
-                //System.out.print(numMatrix[i][j] + " ");
+                if (i == j && numM[i][j] == 1) {reflect++;}  // Проверка главной диагонали
+                if (j != i && numM[i][j] == 1) {count++;}   // Подсчет всего 1 вне главной диагонали
+                if (j < i && numM[i][j] == 1) {left++;}     // слева от диагонали
+                if (j > i && numM[i][j] == 1) {right++;}    // Справа от диагонали
+                if (numMatrix[i][j] != numM[i][j]) {tran++;}  // Проверка на транзитивность
                 j++;
             }
-            //System.out.print('\n');
             i++;
         }
+
+        // Запись в матрицу result результатов проверок
         if (reflect == arr1.length) {result[0] = 1;}
         if (count > 0 && left == right) {result[1] = 1;}
         if (count > 0 && left != right) {result[2] = 1;}
@@ -148,9 +166,12 @@ public class Relatives extends MyArray {
         return result;
     }
 
+    // Метод создающий 2 матрицы R*R и транспонированную матрицу R,
+    // и проверяющий их свойства методом  checkProperties
     public String matrixForCheck () {
         int[][] transponirMatrix = new int[arr1.length][arr1.length]; //Транспонированная матрица
         int[][] multiplyMatrix = new int[arr1.length][arr1.length]; // Умножение R*R для проверки транзитивнсти
+        // Матрицы с результатами проверок
         int[] resultOriginalMatrix;
         int[] resultTransponierMatrix;
         int[] resultMultiplyMatrix;
@@ -159,13 +180,17 @@ public class Relatives extends MyArray {
         int i = 0, j = 0;
 
         i = 0;
+
+        // Создание int матрицы для численных операций
+
         while (i<rArray.length){
             numMatrix[findIndex(rArray[i][0])][findIndex(rArray[i][1])] = 1;
             i++;
         }
 
-        i=0;
+        // Создание транспонированной матрицы и матрицы результата умножения R*R
 
+        i=0;
         while (i < arr1.length) {
             j = 0;
             while (j < arr1.length) {
@@ -175,6 +200,8 @@ public class Relatives extends MyArray {
             }
             i++;
         }
+
+        // Проверка матриц на их свойства
 
         resultOriginalMatrix = checkProperties(numMatrix);
         resultTransponierMatrix = checkProperties(transponirMatrix);
@@ -195,6 +222,7 @@ public class Relatives extends MyArray {
         numMatrix = new int[arr1.length][arr1.length];
     }
 
+    // Метод для отображениея пар множества R
     public String showRArray () {
         String result = "{ ";
         int i = 0;
