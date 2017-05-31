@@ -14,7 +14,7 @@ public class Frame {
     // Контсруктор окна GUI
     Frame() {
 
-        JFrame jfrm = new JFrame("Лабораторная работа №1 по дискретной математике");
+        JFrame jfrm = new JFrame("Лабораторная работа №2 по дискретной математике");
 
         jfrm.setPreferredSize(new Dimension(580, 330));
         jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

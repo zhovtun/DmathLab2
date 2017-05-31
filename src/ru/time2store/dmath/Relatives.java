@@ -65,7 +65,8 @@ public class Relatives extends MyArray {
         int i = 0;
         int j = 0;
         String a = "0";
-        String[] ch = str.split("");
+        String[] temp;
+        String[] ch = str.split(" ");
         rArray = new String[ch.length/2][2];
 
         while (i < ch.length / 2) {
@@ -204,12 +205,23 @@ public class Relatives extends MyArray {
         // Проверка матриц на их свойства
 
         resultOriginalMatrix = checkProperties(numMatrix);
-        resultTransponierMatrix = checkProperties(transponirMatrix);
         resultMultiplyMatrix = checkProperties(multiplyMatrix);
 
+        j = 0;
+        i = 0;
+        int Sum = 0;
+        while (i < arr1.length) {
+            j=0;
+            while (j < arr1.length) {
+                if (numMatrix[i][j] == 1 && numMatrix[i][j] == transponirMatrix[i][j])Sum++;
+                j++;
+            }
+            i++;
+        }
+
         if (resultOriginalMatrix[0] ==1) {result += " - множество рефлексивно;\n";}
-        if (resultTransponierMatrix[1] == 1) {result += " - множество симметрично\n";}
-        if (resultTransponierMatrix[2] == 1) {result += " - множество антисеммитрично\n";}
+        if (Sum == rArray.length) {result += " - множество симметрично; \n";}
+        else {result += " - множество антисеммитрично; \n";}
         if (resultMultiplyMatrix[3] == 1) {result += " - множество транзитивно\n";}
         return  result;
     }

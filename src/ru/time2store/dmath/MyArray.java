@@ -42,7 +42,7 @@ public class MyArray
     protected String[] buildArray (String str) {
         int i =0, j=0, k=0;
         String a = "0";
-        String[] ch = str.split("");
+        String[] ch = str.split(" ");
         String[] array = new String[ch.length];
         String[] result;
 
