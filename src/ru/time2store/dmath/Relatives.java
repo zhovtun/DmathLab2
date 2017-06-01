@@ -1,6 +1,7 @@
 package ru.time2store.dmath;
 
 
+import static java.lang.StrictMath.sqrt;
 import static jdk.nashorn.internal.runtime.JSType.isNumber;
 
 public class Relatives extends MyArray {
@@ -29,7 +30,8 @@ public class Relatives extends MyArray {
         return binMatrix;
     }
     public int getTableDimension () {return arr1.length+1;}
-    public int getHeaderLenght () {return arr1.length;}
+    public int getHeaderLenght () {
+        return arr1.length;}
 
     // Метод для поиска индекса бинарной матрица из множества R
     private int findIndex (String string){
@@ -65,10 +67,20 @@ public class Relatives extends MyArray {
         int i = 0;
         int j = 0;
         String a = "0";
-        String[] temp;
-        String[] ch = str.split(" ");
+        String[] temp = str.split(" ");
+        String[] ch = new String[temp.length * 2];
+        while (i < temp.length) {
+            String[] tmp =  new String[2];
+            tmp = temp[i].split("");
+            ch[j] = tmp[0];
+            j++;
+            ch[j] = tmp[1];
+            j++;
+            i++;
+        }
         rArray = new String[ch.length/2][2];
-
+        i = 0;
+        j = 0;
         while (i < ch.length / 2) {
             rArray[i][0] = ch[j];
             j++;
@@ -172,9 +184,11 @@ public class Relatives extends MyArray {
     public String matrixForCheck () {
         int[][] transponirMatrix = new int[arr1.length][arr1.length]; //Транспонированная матрица
         int[][] multiplyMatrix = new int[arr1.length][arr1.length]; // Умножение R*R для проверки транзитивнсти
+        int[][] antiSimmetric =  new int[arr1.length][arr1.length];
+
         // Матрицы с результатами проверок
         int[] resultOriginalMatrix;
-        int[] resultTransponierMatrix;
+        int[] resultAntiSimmetric;
         int[] resultMultiplyMatrix;
         String result = "Свойства множества R:\n";
 
@@ -202,6 +216,7 @@ public class Relatives extends MyArray {
             i++;
         }
 
+
         // Проверка матриц на их свойства
 
         resultOriginalMatrix = checkProperties(numMatrix);
@@ -214,14 +229,19 @@ public class Relatives extends MyArray {
             j=0;
             while (j < arr1.length) {
                 if (numMatrix[i][j] == 1 && numMatrix[i][j] == transponirMatrix[i][j])Sum++;
+                antiSimmetric[i][j] = numMatrix[i][j] * transponirMatrix[i][j];
+                //System.out.print(antiSimmetric[i][j] + " ");
                 j++;
             }
             i++;
+            //System.out.print('\n');
         }
+        resultAntiSimmetric = checkProperties(antiSimmetric);
 
         if (resultOriginalMatrix[0] ==1) {result += " - множество рефлексивно;\n";}
         if (Sum == rArray.length) {result += " - множество симметрично; \n";}
-        else {result += " - множество антисеммитрично; \n";}
+        else {result += " - множество несиммитрично; \n";}
+        if (resultOriginalMatrix[0] ==0 && resultAntiSimmetric[1] == 0) {result += " - множество антисимметрично;\n";}
         if (resultMultiplyMatrix[3] == 1) {result += " - множество транзитивно\n";}
         return  result;
     }
@@ -243,6 +263,26 @@ public class Relatives extends MyArray {
             i++;
         }
         result = result + "}";
+        return result;
+    }
+
+    private int[][] multiplicationOfMatrix (int[][] matrix1, int[][] matrix2) {
+        int i = 0, j, k;
+        int size = matrix1.length;
+        int[][] result = new int[size][size];
+        while (i < size) {
+            j = 0;
+            while (j < size) {
+                k = 0;
+                while (k < size) {
+                    result[i][j] += matrix1[i][k] * matrix2[k][j];
+                    k++;
+                }
+                j++;
+            }
+            i++;
+        }
+
         return result;
     }
 

@@ -46,10 +46,10 @@ public class Frame {
     public class TestActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             subset.setArray(subsetA.getText(), subsetB.getText());
-            subsetC.setText(subset.showSubset() + '\n' + subset.showRArray() + '\n' + subset.checkRelatives() + '\n' + subset.matrixForCheck());
+            subsetC.setText(subset.showSubset() + '\n' + subset.showRArray() + '\n' + subset.matrixForCheck());
 
             JTable table = new JTable(subset.getBinMatrix(), subset.getHeader());
-            TablePopUp fr1 = new TablePopUp("Бинарная матрица" , subset.getTableDimension()*19, subset.getTableDimension()*22);
+            TablePopUp fr1 = new TablePopUp("Бинарная матрица" , subset.getTableDimension()*19, subset.getTableDimension()*25);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
             int i = 0;
