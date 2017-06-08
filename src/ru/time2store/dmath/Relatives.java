@@ -14,7 +14,6 @@ public class Relatives extends MyArray {
 
     }
 
-
     // Геттеры
     public String[] getHeader () {
         String[] arr = new String[arr1.length+1];
@@ -190,7 +189,7 @@ public class Relatives extends MyArray {
         int[] resultOriginalMatrix;
         int[] resultAntiSimmetric;
         int[] resultMultiplyMatrix;
-        String result = "Свойства множества R:\n";
+        String result = "Свойства отношений, заданных на множестве R:\n";
 
         int i = 0, j = 0;
 
@@ -222,6 +221,10 @@ public class Relatives extends MyArray {
         resultOriginalMatrix = checkProperties(numMatrix);
         resultMultiplyMatrix = checkProperties(multiplyMatrix);
 
+        // Для проверки симметричности матрицы производится сравнение мматрицы и транспонированной матрицы.
+        // Если ячейка матрицы равна 1 и ячейка матрицы равна ячейке транспонированной матрицы то счетчик увеличивается
+        // и если счетчик  равен размеру матрицы, содержащей пары числе, то матрица симметрична.
+        // Для проверки на антисимметричность, выполняется поэлементное умножение матрицы на транспонированную матрицу
         j = 0;
         i = 0;
         int Sum = 0;
@@ -230,11 +233,9 @@ public class Relatives extends MyArray {
             while (j < arr1.length) {
                 if (numMatrix[i][j] == 1 && numMatrix[i][j] == transponirMatrix[i][j])Sum++;
                 antiSimmetric[i][j] = numMatrix[i][j] * transponirMatrix[i][j];
-                //System.out.print(antiSimmetric[i][j] + " ");
                 j++;
             }
             i++;
-            //System.out.print('\n');
         }
         resultAntiSimmetric = checkProperties(antiSimmetric);
 
